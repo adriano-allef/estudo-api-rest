@@ -23,3 +23,20 @@ const instrutores: TInstrutores [] = [
 export function listar(req: Request, res: Response) {
     return res.status(200).json(instrutores)
 }
+
+export function detalhar(req: Request, res: Response){
+    // const id = req.params.id // esse params.id é o mesmo que esta nas rotas (/instrutores/:id)
+    const { id } = req.params
+
+    const instrutor = instrutores.find((item) => {
+        return item.id === Number(id)
+    })
+
+    if (!instrutor){
+        return res.status(404).json({
+            mensagem: 'Instrutor não encontrado(a)'
+        })
+    }
+
+    return res.status(200).json(instrutor)
+}
