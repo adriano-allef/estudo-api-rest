@@ -1,36 +1,17 @@
 import { Request, Response } from "express"
+import  bancodedados  from '../bancoDeDados'
 
-type TInstrutores = {
-    id: number
-    nome: string
-    email: string
-}
 
-let proximoIdentificador = 3
-
-const instrutores: TInstrutores [] = [
-    {
-        id: 1,
-        nome: 'Adriano' ,
-        email: 'adriano@email.com',
-    },
-    {
-        id: 2,
-        nome: 'Maria' ,
-        email: 'maria@email.com',
-    }
-
-]
 
 export function listar(req: Request, res: Response) {
-    return res.status(200).json(instrutores)
+    return res.status(200).json(bancodedados.instrutores)
 }
 
 export function detalhar(req: Request, res: Response){
     // const id = req.params.id // esse params.id é o mesmo que esta nas rotas (/instrutores/:id)
     const { id } = req.params
 
-    const instrutor = instrutores.find((item) => {
+    const instrutor = bancodedados.instrutores.find((item) => {
         return item.id === Number(id)
     })
 
@@ -48,12 +29,12 @@ export function casdastrar(req: Request, res: Response){
     const { nome, email } = req.body
 
     const novoInstrutor = {
-        id: proximoIdentificador ++,
+        id: bancodedados.proximoIdentificador ++,
         nome,
         email
     }
 
-    instrutores.push(novoInstrutor)
+    bancodedados.instrutores.push(novoInstrutor)
 
     return res.status(201).json(novoInstrutor)
 }
@@ -62,7 +43,7 @@ export function atualizar(req: Request, res: Response){
     const { id } = req.params
     const { nome, email } = req.body
 
-    const instrutor = instrutores.find((item) => {
+    const instrutor = bancodedados.instrutores.find((item) => {
         return item.id ===Number(id)
     })
    
@@ -82,7 +63,7 @@ export function excluir(req: Request, res: Response){
     const { id } = req.params
     const { nome, email } = req.body
 
-    const instrutorIndice = instrutores.findIndex((item) => {
+    const instrutorIndice = bancodedados.instrutores.findIndex((item) => {
         return item.id ===Number(id)
     })
    
@@ -92,7 +73,7 @@ export function excluir(req: Request, res: Response){
         })
     }
 
-    instrutores.splice(instrutorIndice, 1)
+    bancodedados.instrutores.splice(instrutorIndice, 1)
 
     return res.status(204).send()
 }
@@ -101,7 +82,7 @@ export function atualizarEmail(req: Request, res: Response){
     const { id } = req.params
     const { email } = req.body
 
-    const instrutor = instrutores.find((item) => {
+    const instrutor = bancodedados.instrutores.find((item) => {
         return item.id ===Number(id)
     })
    
