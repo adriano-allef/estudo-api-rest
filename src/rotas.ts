@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { casdastrar, detalhar, listar } from './controladores/instrutores'
+import { atualizar, atualizarEmail, casdastrar, detalhar, excluir, listar } from './controladores/instrutores'
 
 
 const rotas = Router()
@@ -14,7 +14,11 @@ rotas.get('/instrutores/:id',detalhar)
 rotas.post('/instrutores', casdastrar)
 
 // editar um instrutor
+rotas.put('/instrutores/:id', atualizar)
+rotas.patch('/instrutores/:id/alterarEmail', atualizarEmail)
+
 // excluir um instrutor
+rotas.delete('/instrutores/:id', excluir)
 
 // cadastrar uma aula para um instrutor
 // excluir uma aula para um instrutor

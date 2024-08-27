@@ -6,6 +6,8 @@ type TInstrutores = {
     email: string
 }
 
+let proximoIdentificador = 3
+
 const instrutores: TInstrutores [] = [
     {
         id: 1,
@@ -46,7 +48,7 @@ export function casdastrar(req: Request, res: Response){
     const { nome, email } = req.body
 
     const novoInstrutor = {
-        id: 3,
+        id: proximoIdentificador ++,
         nome,
         email
     }
@@ -54,4 +56,62 @@ export function casdastrar(req: Request, res: Response){
     instrutores.push(novoInstrutor)
 
     return res.status(201).json(novoInstrutor)
+}
+
+export function atualizar(req: Request, res: Response){
+    const { id } = req.params
+    const { nome, email } = req.body
+
+    const instrutor = instrutores.find((item) => {
+        return item.id ===Number(id)
+    })
+   
+    if(!instrutor) {
+        return res.status(404).json({
+            mensagem: 'Instrutor nao encontrado'
+        })
+    }
+
+    instrutor.nome = nome
+    instrutor.email = email
+
+    return res.status(204).send()
+}
+
+export function excluir(req: Request, res: Response){
+    const { id } = req.params
+    const { nome, email } = req.body
+
+    const instrutorIndice = instrutores.findIndex((item) => {
+        return item.id ===Number(id)
+    })
+   
+    if(instrutorIndice === -1) {
+        return res.status(404).json({
+            mensagem: 'Instrutor não encontrado'
+        })
+    }
+
+    instrutores.splice(instrutorIndice, 1)
+
+    return res.status(204).send()
+}
+
+export function atualizarEmail(req: Request, res: Response){
+    const { id } = req.params
+    const { email } = req.body
+
+    const instrutor = instrutores.find((item) => {
+        return item.id ===Number(id)
+    })
+   
+    if(!instrutor) {
+        return res.status(404).json({
+            mensagem: 'Instrutor nao encontrado'
+        })
+    }
+
+    instrutor.email = email
+
+    return res.status(204).send()
 }
